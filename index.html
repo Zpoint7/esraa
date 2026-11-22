@@ -13,7 +13,6 @@
 <style>
 /* =========================================================
    THEME — everything is driven by ONE number: --h (hue).
-   The script animates --h, so the whole frame re-colors smoothly.
    ========================================================= */
 :root{
   --h:32;
@@ -25,7 +24,7 @@
   --sage-dark:#7d918d;
   --stripe:rgba(40,60,60,.30);
 
-  --accent:hsl(var(--h) 52% 54%);            /* thin lines, arrows, borders */
+  --accent:hsl(var(--h) 52% 54%);
   --accent-soft:hsl(var(--h) 52% 54% / .5);
   --glow:hsl(var(--h) 100% 70% / .85);
   --glow-2:hsl(var(--h) 100% 62% / .45);
@@ -64,10 +63,7 @@ body::before{
 }
 
 /* =========================================================
-   LIGHT ON / OFF  (class "on" on <body>)
-   .lit      -> visible when the lamp is ON
-   .lit-inv  -> visible when the lamp is OFF
-   Only opacity is animated => buttery smooth (GPU).
+   LIGHT ON / OFF
    ========================================================= */
 .lit,.lit-inv{transition:opacity .85s ease;will-change:opacity}
 .lit{opacity:0}
@@ -101,14 +97,12 @@ body.boot:not(.in) .frame-wrap{opacity:0;transform:translateY(30px) scale(.94)}
 }
 .frame-dim{position:absolute;inset:0;z-index:1;pointer-events:none;background:rgba(8,14,18,.55)}
 
-/* running light that circles the frame */
 .chase{
   position:absolute;left:50%;top:50%;width:1800px;height:1800px;margin:-900px 0 0 -900px;
   z-index:0;pointer-events:none;
   background:conic-gradient(from 0deg,transparent 0 52%,hsl(var(--h) 100% 72% / .25) 62%,hsl(var(--h) 100% 66%) 82%,#fff 89%,hsl(var(--h) 100% 66%) 93%,transparent 100%);
   animation:spin 5.5s linear infinite;will-change:transform;
 }
-/* ripple when the color changes */
 .wave{
   position:absolute;left:50%;top:80px;width:60px;height:60px;margin:-30px 0 0 -30px;z-index:3;pointer-events:none;
   border-radius:50%;opacity:0;transform:scale(0);
@@ -121,7 +115,7 @@ body.boot:not(.in) .frame-wrap{opacity:0;transform:translateY(30px) scale(.94)}
 .sparks i,.cone,.chase,.frame-glow{backface-visibility:hidden}
 html.noscroll,html.noscroll body{overflow:hidden}
 
-/* ---------- WhatsApp bottom sheet ---------- */
+/* ---------- bottom sheet ---------- */
 .sheet-wrap{position:fixed;inset:0;z-index:100;visibility:hidden;pointer-events:none;transition:visibility 0s linear .45s}
 .sheet-wrap.open{visibility:visible;pointer-events:auto;transition-delay:0s}
 .sheet-bg{position:absolute;inset:0;background:rgba(4,9,12,.62);opacity:0;transition:opacity .35s ease}
@@ -162,7 +156,6 @@ body.ar .sheet-sub{font-size:13.5px}
 .panel-dim{position:absolute;inset:0;z-index:4;pointer-events:none;
   background:radial-gradient(ellipse 75% 38% at 50% 8%,rgba(6,12,16,.16),rgba(6,12,16,.6) 75%)}
 
-/* floating light dust */
 .sparks{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
 .sparks i{
   position:absolute;bottom:-10px;border-radius:50%;
@@ -214,7 +207,7 @@ body.night .ic-moon{display:none}
 @media (max-width:430px){#themeLabel,#colorLabel{display:none}.tbtn{padding:8px 11px}}
 
 /* =========================================================
-   NIGHT MODE (default) — glowing sign look
+   NIGHT MODE (default)
    ========================================================= */
 body.night{
   --ink:#fff3e3;--ink-soft:#e8cfb2;
@@ -287,7 +280,6 @@ body.boot:not(.in) .drop{transform:translateY(-160px)}
 .leaf.r{right:-14px;top:70px;transform-origin:50% 100%;animation:leafR 7s ease-in-out infinite alternate}
 .leaf.l{left:-22px;bottom:110px;width:120px;transform-origin:50% 100%;animation:leafL 8s ease-in-out infinite alternate}
 
-/* logo */
 .monogram{position:relative;display:inline-flex;align-items:center;justify-content:center;width:178px;height:156px;margin-bottom:2px;font-family:'Playfair Display',serif}
 .monogram .halo{position:absolute;inset:-35%;pointer-events:none;background:radial-gradient(circle,hsl(var(--h) 100% 78% / .6),transparent 62%)}
 #logoImgs{position:relative;width:100%;height:100%;display:block}
@@ -317,7 +309,6 @@ body.ar .atelier{font-family:'Cairo',sans-serif;font-size:32px;font-weight:600}
 .hello{font-size:13px;color:var(--ink-soft);margin-bottom:16px;letter-spacing:.04em}
 body.ar .hello{font-size:14px}
 
-/* link cards */
 .links{display:grid;gap:13px}
 .link{
   position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;padding:12px 16px;border-radius:16px;
@@ -371,12 +362,11 @@ body.ar .dev{font-size:13px;letter-spacing:0;padding:7px 8px 7px 15px}
 [dir="rtl"] .dev:hover .dev-ar{transform:scaleX(-1) translateX(4px)}
 body.ar .foot{letter-spacing:.03em}
 
-/* intro reveal: hidden while booting, then cascades in */
 body.boot:not(.ready) .reveal{opacity:0;transform:translateY(24px)}
 body.ready .reveal{animation:rise .9s var(--ease-out) backwards;animation-delay:calc(var(--i,0) * 80ms)}
 
 /* =========================================================
-   KEYFRAMES (transform / opacity only)
+   KEYFRAMES
    ========================================================= */
 @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -401,6 +391,16 @@ body.ready .reveal{animation:rise .9s var(--ease-out) backwards;animation-delay:
 </head>
 
 <body class="boot night" dir="ltr">
+
+<!-- شبكة أمان: لو حصل أي خطأ في الجافاسكريبت، الصفحة تظهر برضه بعد 3.5 ثانية -->
+<script>
+setTimeout(function(){
+  var b=document.body;
+  b.classList.remove('boot');
+  b.classList.add('in','ready');
+},3500);
+</script>
+
 <div class="room lit-inv"></div>
 <div class="veil" id="veil"></div>
 
@@ -439,7 +439,6 @@ body.ready .reveal{animation:rise .9s var(--ease-out) backwards;animation-delay:
         </div>
       </div>
 
-      <!-- Hanging lamp: click it to turn the light ON / OFF -->
       <div class="lamp">
         <div class="cone lit"></div>
         <div class="drop">
@@ -490,60 +489,76 @@ body.ready .reveal{animation:rise .9s var(--ease-out) backwards;animation-delay:
 <script>
 /* =====================================================================
    ★★★  EDIT YOUR LINKS HERE  ★★★
-   Replace each "href" with your own link. That's all you need to change.
    ===================================================================== */
-const DEV_WHATSAPP = "https://wa.me/201032868412";   // ← Z point business WhatsApp (country code, NO + and NO zeros). Used by the "for development contact us" button
+const DEV_WHATSAPP = "https://wa.me/201032868412";   // ← Z point business WhatsApp
+
 const LOGO_SRC = "assets/logo.png";   // your gold ES logo (leave empty "" to use the text monogram)
+
+/* ---------- Facebook ---------- */
+const FB_PAGE_URL  = "https://www.facebook.com/Esraa-Syam-makeup-artist-veil-Stylist-100077429807820";
+const FB_GROUP_URL = "https://www.facebook.com/groups/YOUR_GROUP_ID";   // ←←← ضع لينك جروب الفيسبوك هنا
+
+/* ---------- WhatsApp ---------- */
+const WA_CHAT_URL  = "https://wa.me/201095854344";
+const WA_GROUP_URL = "https://chat.whatsapp.com/ESKNIZGOrsjFdInARNj0ck?s=cl&p=i&mlu=4&ilr=4&iam=2";
 
 const LINKS = [
   {
-    key: "facebook",
-    href: "https://www.facebook.com/Esraa-Syam-makeup-artist-veil-Stylist-100077429807820",              // ← 1) Facebook page link
-    icon: ""                                                       //   optional: your own icon image, e.g. "icons/facebook.png"
+    key: "facebook",                        // ← يفتح خيارات: الصفحة أو الجروب
+    sheetTitle: "fbSheetTitle",
+    sheetSub:   "fbSheetSub",
+    sheet: [
+      { key: "fbPage",  href: FB_PAGE_URL  },   // a) صفحة الفيسبوك
+      { key: "fbGroup", href: FB_GROUP_URL }    // b) جروب الفيسبوك
+    ],
+    icon: ""
   },
   {
     key: "tiktok",
-    href: "https://www.tiktok.com/@esraasyam2",                 // ← 2) TikTok link
+    href: "https://www.tiktok.com/@esraasyam2",
     icon: ""
   },
   {
     key: "instagram",
-    href: "https://www.instagram.com/esraa.syam",               // ← 3) Instagram profile link
+    href: "https://www.instagram.com/esraa.syam",
     icon: ""
   },
   {
-    key: "whatsapp",                                               // ← 4) WhatsApp: opens a bottom sheet with TWO choices
+    key: "whatsapp",                        // ← يفتح خيارات: شات أو جروب
+    sheetTitle: "sheetTitle",
+    sheetSub:   "sheetSub",
     sheet: [
-      { key: "waChat",  href: "https://wa.me/201095854344" },                       //   a) your personal number (country code, NO + and NO zeros, e.g. 201012345678)
-      { key: "waGroup", href: "https://chat.whatsapp.com/YOUR_GROUP_INVITE_CODE" }  //   b) your WhatsApp group invite link
+      { key: "waChat",  href: WA_CHAT_URL  },
+      { key: "waGroup", href: WA_GROUP_URL }
     ],
     icon: ""
   },
   {
     key: "google",
-    href: "https://g.page/r/YOUR_GOOGLE_REVIEW_CODE/review",       // ← 5) Google review link (opens the review box directly)
+    href: "https://g.page/r/YOUR_GOOGLE_REVIEW_CODE/review",
     icon: ""
   },
   {
     key: "vodafone",
-    href: "https://YOUR_VODAFONE_CASH_PAYMENT_LINK",               // ← 6) Vodafone Cash payment link (opens payment directly)
+    href: "http://vf.eg/vfcash?id=mt&qrId=oeJtG3&qrString=1630dc49471d629647805d11d233abb513e242cfc513525222cb988c161e3983",
     icon: ""
   },
   {
     key: "instapay",
-    href: "https://ipn.eg/S/YOUR_INSTAPAY_ADDRESS",                // ← 7) InstaPay payment link (opens payment directly)
+    href: "https://ipn.eg/S/esraasyam/instapay/35MXin",
     icon: ""
   }
 ];
 /* ===================================================================== */
 
-/* ----- App icons (built-in SVGs). You can override any of them with your own image via "icon" above ----- */
+/* ----- App icons (built-in SVGs) ----- */
 const ICONS = {
   instagram:`<svg viewBox="0 0 64 64"><defs><radialGradient id="ig" cx=".3" cy="1.05" r="1.15"><stop offset="0" stop-color="#fdf497"/><stop offset=".1" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset="1" stop-color="#285AEB"/></radialGradient></defs><rect width="64" height="64" fill="url(#ig)"/><rect x="16" y="16" width="32" height="32" rx="9" fill="none" stroke="#fff" stroke-width="3.5"/><circle cx="32" cy="32" r="7.5" fill="none" stroke="#fff" stroke-width="3.5"/><circle cx="41.500" cy="22.500" r="2.200" fill="#fff"/></svg>`,
   google:`<svg viewBox="0 0 64 64"><rect width="64" height="64" fill="#fff"/><path fill="#4285F4" d="M50.6 32.4c0-1.3-.1-2.500-.3-3.700H32v7h10.400c-.5 2.400-1.800 4.400-3.800 5.800v4.800h6.200c3.600-3.300 5.800-8.300 5.800-13.900z"/><path fill="#34A853" d="M32 51.500c5.200 0 9.600-1.700 12.800-4.700l-6.200-4.800c-1.700 1.200-3.900 1.900-6.600 1.900-5 0-9.300-3.400-10.800-8H14.800v5C18 47.400 24.500 51.500 32 51.500z"/><path fill="#FBBC05" d="M21.200 35.900c-.4-1.200-.6-2.400-.6-3.900s.2-2.700.6-3.900v-5H14.800C13.500 25.700 12.800 28.800 12.800 32s.7 6.300 2 8.900l6.400-5z"/><path fill="#EA4335" d="M32 20.200c2.800 0 5.400 1 7.400 2.900l5.500-5.500C41.600 14.500 37.200 12.500 32 12.500c-7.500 0-14 4.200-17.200 10.500l6.400 5c1.500-4.600 5.800-7.800 10.800-7.800z"/><g transform="translate(40 8)"><path fill="#FBBC05" d="M8 0l2.100 4.700 5.100.6-3.800 3.500 1 5.100L8 11.400l-4.500 2.500 1-5.100L.7 5.300l5.100-.6z" transform="scale(.9)"/></g></svg>`,
   wachat:`<svg viewBox="0 0 64 64"><rect width="64" height="64" fill="#25D366"/><path d="M32 12a19 19 0 0 0-16.200 28.900L13 51l10.500-2.700A19 19 0 1 0 32 12z" fill="none" stroke="#fff" stroke-width="3.500" stroke-linejoin="round"/><path fill="#fff" d="M25.200 22.500c.5-.8 1.500-.8 2 0l1.800 3.300c.3.500.3 1.100 0 1.600l-1.300 1.600c1.500 3 3.800 5.300 6.800 6.800l1.600-1.300c.5-.4 1.100-.4 1.600 0l3.300 1.800c.8.500.8 1.500 0 2.100-1.800 2-4.400 2.800-6.900 1.800-5.300-2-9.300-6-11.300-11.300-1-2.500-.2-5.100 1.800-6.900z"/></svg>`,
   wagroup:`<svg viewBox="0 0 64 64"><rect width="64" height="64" fill="#128C7E"/><circle cx="32" cy="24" r="8" fill="#fff"/><circle cx="17.500" cy="28" r="6" fill="#fff" opacity=".85"/><circle cx="46.500" cy="28" r="6" fill="#fff" opacity=".85"/><path fill="#fff" d="M18 50c0-8 6-13 14-13s14 5 14 13z"/><path fill="#fff" opacity=".85" d="M6 49c0-6 4-10 10-10 1.500 0 3 .3 4 .8-3 2.400-4.500 5.800-4.700 9.200zM58 49c0-6-4-10-10-10-1.500 0-3 .3-4 .8 3 2.400 4.500 5.800 4.700 9.200z"/></svg>`,
   facebook:`<svg viewBox="0 0 64 64"><rect width="64" height="64" fill="#1877F2"/><path fill="#fff" d="M43.500 40l1.500-9.800h-9.400v-6.300c0-2.700 1.300-5.300 5.500-5.300h4.300v-8.400s-3.900-.7-7.600-.7c-7.700 0-12.800 4.700-12.800 13.200v7.500h-8.600V40h8.600v24h10.500V40z"/></svg>`,
+  fbgroup:`<svg viewBox="0 0 64 64"><rect width="64" height="64" fill="#1877F2"/><circle cx="32" cy="24" r="7" fill="#fff"/><path fill="#fff" d="M20 46c0-6.600 5.400-11 12-11s12 4.400 12 11z"/><circle cx="17" cy="27" r="5" fill="#fff" opacity=".8"/><circle cx="47" cy="27" r="5" fill="#fff" opacity=".8"/><path fill="#fff" opacity=".8" d="M6 45c0-5 3.600-8.500 9-8.500 1.400 0 2.700.300 3.800.800-2.600 2.200-4 5.200-4.200 8.200zM58 45c0-5-3.600-8.500-9-8.500-1.400 0-2.700.300-3.800.800 2.600 2.200 4 5.200 4.200 8.200z"/></svg>`,
   tiktok:`<svg viewBox="0 0 64 64"><rect width="64" height="64" fill="#010101"/><g transform="translate(14 13) scale(1.5)"><path fill="#25F4EE" transform="translate(-.9 -.9)" d="M12.525.02c1.310-.02 2.610-.01 3.910-.02.080 1.530.630 3.090 1.750 4.170 1.120 1.110 2.700 1.620 4.240 1.790v4.030c-1.440-.05-2.890-.35-4.200-.97-.57-.26-1.100-.59-1.620-.93-.01 2.920.01 5.840-.02 8.750-.08 1.400-.54 2.790-1.350 3.940-1.310 1.920-3.580 3.170-5.910 3.210-1.430.08-2.860-.31-4.080-1.030-2.020-1.190-3.440-3.370-3.650-5.710-.02-.5-.03-1-.01-1.490.18-1.900 1.120-3.720 2.580-4.960 1.660-1.440 3.980-2.130 6.150-1.720.02 1.480-.04 2.960-.04 4.440-.99-.32-2.150-.23-3.020.37-.63.41-1.110 1.040-1.360 1.750-.21.51-.15 1.070-.14 1.610.24 1.640 1.820 3.020 3.500 2.870 1.120-.01 2.190-.66 2.770-1.610.19-.33.4-.67.41-1.060.1-1.790.06-3.570.07-5.360.01-4.030-.01-8.050.02-12.070z"/><path fill="#FE2C55" transform="translate(.9 .9)" d="M12.525.02c1.310-.02 2.610-.01 3.910-.02.080 1.530.630 3.090 1.750 4.170 1.120 1.110 2.700 1.620 4.240 1.790v4.030c-1.440-.05-2.890-.35-4.200-.97-.57-.26-1.100-.59-1.620-.93-.01 2.920.01 5.840-.02 8.750-.08 1.400-.54 2.790-1.350 3.940-1.310 1.920-3.580 3.170-5.910 3.210-1.430.08-2.860-.31-4.080-1.030-2.020-1.190-3.440-3.370-3.650-5.710-.02-.5-.03-1-.01-1.490.18-1.900 1.120-3.720 2.580-4.960 1.660-1.440 3.980-2.130 6.150-1.720.02 1.480-.04 2.960-.04 4.440-.99-.32-2.150-.23-3.020.37-.63.41-1.110 1.040-1.360 1.750-.21.51-.15 1.070-.14 1.610.24 1.640 1.820 3.020 3.500 2.870 1.120-.01 2.190-.66 2.770-1.610.19-.33.4-.67.41-1.060.1-1.790.06-3.570.07-5.360.01-4.030-.01-8.050.02-12.070z"/><path fill="#fff" d="M12.525.02c1.310-.02 2.610-.01 3.910-.02.080 1.530.630 3.090 1.750 4.170 1.120 1.110 2.700 1.620 4.240 1.790v4.030c-1.440-.05-2.890-.35-4.200-.97-.57-.26-1.100-.59-1.620-.93-.01 2.920.01 5.840-.02 8.750-.08 1.400-.54 2.790-1.350 3.940-1.310 1.920-3.580 3.170-5.910 3.210-1.430.08-2.860-.31-4.080-1.030-2.020-1.190-3.440-3.370-3.650-5.710-.02-.5-.03-1-.01-1.490.18-1.900 1.120-3.720 2.580-4.960 1.660-1.440 3.980-2.130 6.150-1.720.02 1.480-.04 2.960-.04 4.440-.99-.32-2.150-.23-3.020.37-.63.41-1.110 1.040-1.360 1.750-.21.51-.15 1.070-.14 1.610.24 1.640 1.820 3.020 3.500 2.870 1.120-.01 2.190-.66 2.770-1.610.19-.33.4-.67.41-1.060.1-1.790.06-3.570.07-5.360.01-4.030-.01-8.050.02-12.070z"/></g></svg>`,
   whatsapp:`<svg viewBox="0 0 64 64"><rect width="64" height="64" fill="#25D366"/><path d="M32 12a19 19 0 0 0-16.200 28.900L13 51l10.500-2.700A19 19 0 1 0 32 12z" fill="none" stroke="#fff" stroke-width="3.500" stroke-linejoin="round"/><path fill="#fff" d="M25.200 22.500c.5-.8 1.500-.8 2 0l1.800 3.300c.3.500.3 1.100 0 1.600l-1.300 1.600c1.500 3 3.800 5.300 6.800 6.800l1.600-1.300c.5-.4 1.100-.4 1.600 0l3.300 1.800c.8.500.8 1.500 0 2.100-1.800 2-4.400 2.800-6.900 1.800-5.300-2-9.300-6-11.300-11.300-1-2.500-.2-5.100 1.800-6.900z"/></svg>`,
   vodafone:`<svg viewBox="0 0 64 64"><rect width="64" height="64" fill="#E60000"/><circle cx="32" cy="27" r="14" fill="#fff"/><circle cx="33" cy="28.500" r="8" fill="#E60000"/><path fill="#E60000" d="M20 33c-1 6 2 11 8 12-4-3-6-7-5-12z"/><text x="32" y="58" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="700" font-size="11" fill="#fff">cash</text></svg>`,
@@ -557,26 +572,30 @@ const I18N = {
     hello:"Follow us & get in touch — tap any icon",
     tagline:"Your beauty,<br>our priority",
     lang:"العربية", color:"Light color", powered:"powered by", devText:"For development contact us", light:["Night glow","Day light"],
-    facebook:["Facebook","Follow our page"], tiktok:["TikTok","Watch our videos"],
+    facebook:["Facebook","Our page & group"], tiktok:["TikTok","Watch our videos"],
     instagram:["Instagram","Follow our latest work"], whatsapp:["WhatsApp","Chat with us or join the group"], google:["Google Reviews","Rate your experience"],
     vodafone:["Vodafone Cash","Send payment easily"], instapay:["InstaPay","Instant payment"],
     sheetTitle:"WhatsApp", sheetSub:"Choose how you want to connect", close:"Close",
-    waChat:["Chat with us","Our personal WhatsApp number"], waGroup:["Join the group","Our WhatsApp community"]
+    waChat:["Chat with us","Our personal WhatsApp number"], waGroup:["Join the group","Our WhatsApp community"],
+    fbSheetTitle:"Facebook", fbSheetSub:"Choose page or group",
+    fbPage:["Facebook Page","Follow our page"], fbGroup:["Facebook Group","Join our community"]
   },
   ar: {
     name:"إسراء سيام", beauty:"مركز تجميل", atelier:"أتيليه",
     hello:"تابعنا وتواصل معنا — اضغط على أي أيقونة",
     tagline:"جمالك،<br>أولويتنا",
     lang:"English", color:"لون الإضاءة", powered:"بدعم من", devText:"للتطوير تواصل معنا", light:["إضاءة ليلية","إضاءة نهارية"],
-    facebook:["فيسبوك","تابع صفحتنا"], tiktok:["تيك توك","شاهد فيديوهاتنا"],
+    facebook:["فيسبوك","صفحتنا وجروبنا"], tiktok:["تيك توك","شاهد فيديوهاتنا"],
     instagram:["إنستجرام","تابع أحدث أعمالنا"], whatsapp:["واتساب","تواصل معنا أو انضم للجروب"], google:["تقييمات جوجل","قيّم تجربتك معنا"],
     vodafone:["فودافون كاش","ادفع بسهولة"], instapay:["إنستا باي","دفع فوري"],
     sheetTitle:"واتساب", sheetSub:"اختار الطريقة اللي تناسبك", close:"إغلاق",
-    waChat:["تواصل معنا","رقمنا الشخصي على واتساب"], waGroup:["انضم للجروب","مجتمعنا على واتساب"]
+    waChat:["تواصل معنا","رقمنا الشخصي على واتساب"], waGroup:["انضم للجروب","مجتمعنا على واتساب"],
+    fbSheetTitle:"فيسبوك", fbSheetSub:"اختار الصفحة أو الجروب",
+    fbPage:["صفحة فيسبوك","تابع صفحتنا"], fbGroup:["جروب فيسبوك","انضم لجروبنا"]
   }
 };
 
-/* ----- Light colors (hue values). Add / change freely. ----- */
+/* ----- Light colors ----- */
 const COLORS = [
   { n:["Gold","ذهبي"],       h:32  },
   { n:["Rose","وردي"],       h:342 },
@@ -588,12 +607,18 @@ const COLORS = [
 
 const arrowSVG = '<svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
+const SHEET_ICONS = {
+  waChat: ICONS.wachat, waGroup: ICONS.wagroup,
+  fbPage: ICONS.facebook, fbGroup: ICONS.fbgroup
+};
+
 const B = document.body, root = document.documentElement;
 const $ = id => document.getElementById(id);
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+let openSheetEl = null, sheetTrigger = null;
+
 /* ----- Build link cards ----- */
-let sheetEl, sheetTrigger = null;
 LINKS.forEach((l,i)=>{
   const a = document.createElement('a');
   a.className = 'link reveal';
@@ -607,50 +632,60 @@ LINKS.forEach((l,i)=>{
   if (l.sheet) buildSheet(l, a);
 });
 
-/* ----- WhatsApp bottom sheet ----- */
+/* ----- Bottom sheet (Facebook + WhatsApp) ----- */
 function buildSheet(l, trigger){
   const wrap = document.createElement('div');
-  wrap.className = 'sheet-wrap'; wrap.id = 'sheetWrap'; wrap.setAttribute('aria-hidden','true');
-  const icons = { waChat: ICONS.wachat, waGroup: ICONS.wagroup };
+  wrap.className = 'sheet-wrap';
+  wrap.setAttribute('aria-hidden','true');
+  const titleId = 'sheetTitle-' + l.key;
+  const iconFor = k => SHEET_ICONS[k] || ICONS[l.key] || ICONS.wachat;
+
   wrap.innerHTML = `
     <div class="sheet-bg" data-close></div>
-    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
-      <div class="sheet-grab" id="sheetGrab"><i></i></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="${titleId}">
+      <div class="sheet-grab"><i></i></div>
       <div class="sheet-head">
-        <div><div class="sheet-title" id="sheetTitle" data-i18n="sheetTitle"></div><div class="sheet-sub" data-i18n="sheetSub"></div></div>
+        <div>
+          <div class="sheet-title" id="${titleId}" data-i18n="${l.sheetTitle || 'sheetTitle'}"></div>
+          <div class="sheet-sub" data-i18n="${l.sheetSub || 'sheetSub'}"></div>
+        </div>
         <button class="sheet-x" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
       <div class="links sheet-links">
         ${l.sheet.map(o=>`<a class="link" href="${o.href}" target="_blank" rel="noopener noreferrer" data-key="${o.key}">
-          <span class="ico">${icons[o.key] || ICONS.wachat}</span>
+          <span class="ico">${iconFor(o.key)}</span>
           <span class="txt"><div class="name"></div><div class="desc"></div></span>${arrowSVG}</a>`).join('')}
       </div>
     </div>`;
-  document.body.appendChild(wrap);
-  sheetEl = wrap;
-  wrap.addEventListener('click', e=>{ if (e.target.closest('[data-close]')) closeSheet(); else if (e.target.closest('.sheet .link')) setTimeout(closeSheet, 250); });
-  trigger.addEventListener('click', e=>{ e.preventDefault(); openSheet(trigger); });
 
-  // swipe down to close (transform only => smooth)
-  const sh = wrap.querySelector('.sheet'), grab = wrap.querySelector('#sheetGrab');
+  document.body.appendChild(wrap);
+
+  wrap.addEventListener('click', e=>{
+    if (e.target.closest('[data-close]')) closeSheet();
+    else if (e.target.closest('.sheet .link')) setTimeout(closeSheet, 250);
+  });
+  trigger.addEventListener('click', e=>{ e.preventDefault(); openSheet(wrap, trigger); });
+
+  const sh = wrap.querySelector('.sheet'), grab = wrap.querySelector('.sheet-grab');
   let y0 = 0, dy = 0, drag = false;
   grab.addEventListener('pointerdown', e=>{ drag = true; y0 = e.clientY; dy = 0; sh.style.transition = 'none'; grab.setPointerCapture(e.pointerId); });
   grab.addEventListener('pointermove', e=>{ if (!drag) return; dy = Math.max(0, e.clientY - y0); sh.style.transform = `translate3d(0,${dy}px,0)`; });
   const end = ()=>{ if (!drag) return; drag = false; sh.style.transition = ''; sh.style.transform = ''; if (dy > 70) closeSheet(); };
   grab.addEventListener('pointerup', end); grab.addEventListener('pointercancel', end);
 }
-function openSheet(trigger){
-  if (!sheetEl) return;
-  sheetTrigger = trigger;
-  sheetEl.setAttribute('aria-hidden','false');
-  sheetEl.classList.add('open');
+
+function openSheet(wrap, trigger){
+  if (!wrap) return;
+  openSheetEl = wrap; sheetTrigger = trigger;
+  wrap.setAttribute('aria-hidden','false');
+  wrap.classList.add('open');
   root.classList.add('noscroll');
-  setTimeout(()=>{ const f = sheetEl.querySelector('.sheet .link'); if (f) f.focus({preventScroll:true}); }, 60);
+  setTimeout(()=>{ const f = wrap.querySelector('.sheet .link'); if (f) f.focus({preventScroll:true}); }, 60);
 }
 function closeSheet(){
-  if (!sheetEl || !sheetEl.classList.contains('open')) return;
-  sheetEl.classList.remove('open');
-  sheetEl.setAttribute('aria-hidden','true');
+  if (!openSheetEl || !openSheetEl.classList.contains('open')) return;
+  openSheetEl.classList.remove('open');
+  openSheetEl.setAttribute('aria-hidden','true');
   root.classList.remove('noscroll');
   if (sheetTrigger) sheetTrigger.focus({preventScroll:true});
 }
@@ -675,8 +710,8 @@ function closeSheet(){
   s.innerHTML = html;
 })();
 
-/* ----- Language (with a soft fade) ----- */
-let lang = 'en', colorIdx = 0, night = true;       // the page ALWAYS opens in dark (night) mode; the button only switches for the current visit
+/* ----- Language ----- */
+let lang = 'en', colorIdx = 0, night = true;
 try{
   lang = localStorage.getItem('es_lang') || 'en';
   colorIdx = +localStorage.getItem('es_color') || 0;
@@ -689,16 +724,15 @@ function applyLang(){
   document.documentElement.lang = lang;
   B.dir = lang === 'ar' ? 'rtl' : 'ltr';
   B.classList.toggle('ar', lang === 'ar');
-  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.innerHTML = t[el.dataset.i18n]; });
-  document.querySelectorAll('.link').forEach(a=>{
-    const [n,d] = t[a.dataset.key];
-    a.querySelector('.name').textContent = n;
-    a.querySelector('.desc').textContent = d;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const v = t[el.dataset.i18n];
+    if (v !== undefined) el.innerHTML = v;
   });
-  document.querySelectorAll('.sheet .link').forEach(a=>{
-    const [n,d] = t[a.dataset.key];
-    a.querySelector('.name').textContent = n;
-    a.querySelector('.desc').textContent = d;
+  document.querySelectorAll('.link').forEach(a=>{
+    const tr = t[a.dataset.key];
+    if (!tr) return;
+    a.querySelector('.name').textContent = tr[0];
+    a.querySelector('.desc').textContent = tr[1];
   });
   document.querySelectorAll('.sheet-x').forEach(b=>b.setAttribute('aria-label', t.close));
   $('langLabel').textContent = t.lang;
@@ -714,7 +748,7 @@ $('langBtn').onclick = ()=>{
   setTimeout(()=>{ lang = lang==='en' ? 'ar' : 'en'; applyLang(); requestAnimationFrame(()=>card.classList.remove('swap')); }, 230);
 };
 
-/* ----- Day / Night mode (soft dip while switching) ----- */
+/* ----- Day / Night mode ----- */
 $('themeBtn').onclick = e=>{
   e.stopPropagation();
   const swap = ()=>{
@@ -727,7 +761,7 @@ $('themeBtn').onclick = e=>{
   setTimeout(()=>{ swap(); requestAnimationFrame(()=>requestAnimationFrame(()=>v.classList.remove('show'))); }, 270);
 };
 
-/* ----- Color palette + smooth hue tween (shortest way round the wheel) ----- */
+/* ----- Color palette ----- */
 const pal = $('palette');
 COLORS.forEach((c,i)=>{
   const b = document.createElement('button');
@@ -739,15 +773,13 @@ COLORS.forEach((c,i)=>{
 let curHue = COLORS[colorIdx].h;
 root.style.setProperty('--h', curHue);
 
-/* Color change is applied in ONE step (no per-frame repaint of the glows/filters = no lag).
-   The smooth feeling comes from GPU-only effects (opacity / scale): a light ripple + a tint fade. */
 function setColor(i, silent){
   colorIdx = i;
   document.querySelectorAll('.sw').forEach((b,k)=>b.classList.toggle('active', k===i));
   try{ localStorage.setItem('es_color', i); }catch(e){}
   const apply = ()=>{ curHue = COLORS[i].h; root.style.setProperty('--h', curHue); };
   if (silent){ apply(); return; }
-  ripple();                                   // start GPU animations first
+  ripple();
   requestAnimationFrame(()=>{ apply(); if (!B.classList.contains('on')) turnOn(); sway(); });
 }
 function ripple(){
@@ -763,7 +795,7 @@ colorBtn.onclick = e=>{
 document.addEventListener('click', ()=>{ pal.classList.remove('open'); colorBtn.setAttribute('aria-expanded', false); });
 document.addEventListener('keydown', e=>{ if (e.key === 'Escape'){ pal.classList.remove('open'); closeSheet(); } });
 
-/* ----- Lamp: on / off ----- */
+/* ----- Lamp ----- */
 let timers = [], flick = [];
 const later = (ms, fn)=> timers.push(setTimeout(fn, ms));
 const clearAll = ()=>{ timers.forEach(clearTimeout); timers = []; clearFlick(); };
@@ -774,7 +806,7 @@ function lampSet(on, fast){
   B.classList.toggle('on', on);
   $('lampBtn').setAttribute('aria-pressed', on);
 }
-function turnOn(){          // a short neon-style flicker, then a warm ramp up
+function turnOn(){
   clearFlick();
   lampSet(true, true);
   flickAt(90,  ()=>lampSet(false, true));
@@ -801,10 +833,10 @@ function finishIntro(){
 }
 function intro(){
   if (reduce){ B.classList.add('in','ready'); lampSet(true, false); return; }
-  later(150,  ()=> B.classList.add('in'));          // frame fades in, lamp drops
-  later(1150, ()=> sway());                          // lamp swings
-  later(1450, ()=> turnOn());                        // light flickers on
-  later(1900, ()=>{ B.classList.add('ready'); ripple(); });  // content cascades in
+  later(150,  ()=> B.classList.add('in'));
+  later(1150, ()=> sway());
+  later(1450, ()=> turnOn());
+  later(1900, ()=>{ B.classList.add('ready'); ripple(); });
   const skip = ()=>{ if (!B.classList.contains('ready')) finishIntro(); removeEventListener('pointerdown', skip); };
   addEventListener('pointerdown', skip);
 }
